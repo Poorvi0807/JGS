@@ -18,6 +18,6 @@ const orderSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now },
 });
 
-orderSchema.index({ createdAt: 1 }); // Index for efficient querying
+orderSchema.index({ createdAt: 1 }); 
 
 module.exports = mongoose.model('Order', orderSchema);

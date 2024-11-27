@@ -5,29 +5,29 @@ const VirtualTable = ({ data, fetchMore, hasNextPage }) => {
   const parentRef = useRef();
 
   const rowVirtualizer = useVirtualizer({
-    count: data.length, // Total number of rows
-    getScrollElement: () => parentRef.current, // Function to return the scrollable element
-    estimateSize: () => 50, // Estimated height of each row in pixels
+    count: data.length,
+    getScrollElement: () => parentRef.current, 
+    estimateSize: () => 50, 
   });
 
   return (
     <div
       ref={parentRef}
       style={{
-        height: '600px', // Table height
-        overflow: 'auto', // Enable scrolling
+        height: '600px', 
+        overflow: 'auto', 
         border: '1px solid #ddd',
       }}
       onScroll={(e) => {
         const { scrollTop, clientHeight, scrollHeight } = e.target;
         if (scrollTop + clientHeight >= scrollHeight && hasNextPage) {
-          fetchMore(); // Fetch more data when scrolled to the bottom
+          fetchMore(); 
         }
       }}
     >
       <div
         style={{
-          height: `${rowVirtualizer.getTotalSize()}px`, // Set container height
+          height: `${rowVirtualizer.getTotalSize()}px`, 
           position: 'relative',
         }}
       >
@@ -41,7 +41,7 @@ const VirtualTable = ({ data, fetchMore, hasNextPage }) => {
                 top: 0,
                 left: 0,
                 width: '100%',
-                transform: `translateY(${virtualRow.start}px)`, // Position each row
+                transform: `translateY(${virtualRow.start}px)`, 
                 padding: '10px',
                 borderBottom: '1px solid #ccc',
                 display: 'flex',

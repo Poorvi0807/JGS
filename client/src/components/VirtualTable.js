@@ -1,42 +1,47 @@
 import React, { useRef } from 'react';
-import { useVirtual } from 'react-virtual';
+import { useVirtualizer } from '@tanstack/react-virtual';
 
 const VirtualTable = ({ data, fetchMore, hasNextPage }) => {
   const parentRef = useRef();
 
-  const rowVirtualizer = useVirtual({
-    size: data.length,
-    parentRef,
-    estimateSize: () => 50, // Row height in pixels
+  const rowVirtualizer = useVirtualizer({
+    count: data.length, // Total number of rows
+    getScrollElement: () => parentRef.current, // Function to return the scrollable element
+    estimateSize: () => 50, // Estimated height of each row in pixels
   });
 
   return (
     <div
       ref={parentRef}
       style={{
-        height: '600px', // Adjust table height as needed
-        overflow: 'auto',
+        height: '600px', // Table height
+        overflow: 'auto', // Enable scrolling
         border: '1px solid #ddd',
       }}
       onScroll={(e) => {
         const { scrollTop, clientHeight, scrollHeight } = e.target;
         if (scrollTop + clientHeight >= scrollHeight && hasNextPage) {
-          fetchMore();
+          fetchMore(); // Fetch more data when scrolled to the bottom
         }
       }}
     >
-      <div style={{ height: `${rowVirtualizer.totalSize}px`, position: 'relative' }}>
-        {rowVirtualizer.virtualItems.map((virtualRow) => {
+      <div
+        style={{
+          height: `${rowVirtualizer.getTotalSize()}px`, // Set container height
+          position: 'relative',
+        }}
+      >
+        {rowVirtualizer.getVirtualItems().map((virtualRow) => {
           const order = data[virtualRow.index];
           return (
             <div
-              key={virtualRow.index}
+              key={virtualRow.key}
               style={{
                 position: 'absolute',
                 top: 0,
                 left: 0,
                 width: '100%',
-                transform: `translateY(${virtualRow.start}px)`,
+                transform: `translateY(${virtualRow.start}px)`, // Position each row
                 padding: '10px',
                 borderBottom: '1px solid #ccc',
                 display: 'flex',

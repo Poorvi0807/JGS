@@ -4,9 +4,9 @@
   "description": "Backend for virtual scrolling table application",
   "main": "src/index.js",
   "scripts": {
-    "start": "node src/index.js",
+    "start": "node src/app.js",
     "seed": "node src/seed/seedOrders.js",
-    "dev": "nodemon src/index.js"
+    "dev": "nodemon src/app.js"
   },
   "dependencies": {
     "cors": "^2.8.5",

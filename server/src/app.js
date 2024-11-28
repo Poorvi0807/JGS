@@ -6,6 +6,7 @@ const { errorHandler } = require('./utils/errorHandler');
 const logger = require('./utils/logger');
 require('dotenv').config();
 
+const PORT = process.env.PORT || 5000;
 connectDB();
 
 const app = express();
@@ -22,4 +23,6 @@ app.use(logger);
 app.use('/api/orders', orderRoutes);
 app.use(errorHandler);
 
+
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 module.exports = app;
